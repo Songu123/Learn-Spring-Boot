@@ -1,40 +1,190 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/_layout}">
 <head>
-  <meta charset="UTF-8" />
   <title>Danh sách nhân viên</title>
-  <style>
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    .high { background-color: #f8d7da; color: #721c24; } /* tô đỏ nhẹ cho dòng lương cao */
-  </style>
+
+  <!-- Page-specific styles -->
+  <th:block layout:fragment="styles">
+    <style>
+      .page-container {
+          background: white;
+          padding: 40px;
+          border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+
+      .page-header {
+          color: #667eea;
+          text-align: center;
+          margin-bottom: 30px;
+          font-size: 2.5em;
+          font-weight: 700;
+      }
+
+      .stats-bar {
+          display: flex;
+          justify-content: space-around;
+          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+          padding: 20px;
+          border-radius: 15px;
+          margin-bottom: 30px;
+          flex-wrap: wrap;
+          gap: 15px;
+      }
+
+      .stat-item {
+          text-align: center;
+      }
+
+      .stat-label {
+          color: #666;
+          font-size: 0.9em;
+          margin-bottom: 5px;
+      }
+
+      .stat-value {
+          color: #667eea;
+          font-size: 1.8em;
+          font-weight: 700;
+      }
+
+      .employee-table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .employee-table thead {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+      }
+
+      .employee-table th {
+          padding: 15px;
+          text-align: left;
+          font-weight: 600;
+          font-size: 1.1em;
+      }
+
+      .employee-table td {
+          padding: 12px 15px;
+          border-bottom: 1px solid #e0e0e0;
+      }
+
+      .employee-table tbody tr {
+          transition: all 0.3s;
+          background: white;
+      }
+
+      .employee-table tbody tr:hover {
+          background: #f8f9fa;
+          transform: scale(1.01);
+      }
+
+      /* Tô đỏ dòng có lương > 1000$ */
+      .employee-table tbody tr.high-salary {
+          background: #f8d7da !important;
+          color: #721c24;
+          font-weight: 600;
+      }
+
+      .employee-table tbody tr.high-salary:hover {
+          background: #f5c6cb !important;
+      }
+
+      /* Badge cho xếp loại */
+      .rank-badge {
+          display: inline-block;
+          padding: 5px 15px;
+          border-radius: 20px;
+          font-weight: 600;
+          font-size: 0.9em;
+      }
+
+      .rank-badge.good {
+          background: #d4edda;
+          color: #155724;
+      }
+
+      .rank-badge.fair {
+          background: #fff3cd;
+          color: #856404;
+      }
+
+      .empty-message {
+          text-align: center;
+          padding: 40px;
+          color: #666;
+          font-size: 1.2em;
+      }
+
+      .empty-message-icon {
+          font-size: 3em;
+          margin-bottom: 10px;
+      }
+    </style>
+  </th:block>
 </head>
 <body>
-<h1>Danh sách nhân viên</h1>
+  <!-- Main content fragment -->
+  <div layout:fragment="content">
+    <div class="page-container">
+      <h1 class="page-header">📋 Danh sách Nhân viên</h1>
 
-<div th:if="${#lists.isEmpty(employees)}">
-  <p>Không có nhân viên.</p>
-</div>
+      <!-- Thống kê tổng quan -->
+      <div class="stats-bar" th:if="${not #lists.isEmpty(employees)}">
+        <div class="stat-item">
+          <div class="stat-label">👥 Tổng số nhân viên</div>
+          <div class="stat-value" th:text="${totalEmployees}">0</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">💰 Tổng lương</div>
+          <div class="stat-value" th:text="${#numbers.formatDecimal(totalSalary, 0, 'COMMA', 0, 'POINT')} + ' $'">0</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">📊 Lương trung bình</div>
+          <div class="stat-value" th:text="${#numbers.formatDecimal(averageSalary, 0, 'COMMA', 2, 'POINT')} + ' $'">0</div>
+        </div>
+      </div>
 
-<div th:unless="${#lists.isEmpty(employees)}">
-  <table>
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Tên</th>
-      <th>Lương ($)</th>
-      <th>Xếp loại</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="emp : ${employees}" th:classappend="${emp.salary > 1000 ? 'high' : ''}">
-      <td th:text="${emp.id}">1</td>
-      <td th:text="${emp.name}">Name</td>
-      <td th:text="${emp.salary}">0</td>
-      <td th:text="${emp.salary > 1000 ? 'Giỏi' : 'Khá'}">Khá</td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+      <!-- Kiểm tra danh sách rỗng -->
+      <div class="empty-message" th:if="${#lists.isEmpty(employees)}">
+        <div class="empty-message-icon">📭</div>
+        <p>Không có nhân viên nào trong hệ thống.</p>
+        <p><a th:href="@{/employees/add}">Thêm nhân viên mới</a></p>
+      </div>
+
+      <!-- Bảng danh sách nhân viên -->
+      <table class="employee-table" th:unless="${#lists.isEmpty(employees)}">
+        <thead>
+          <tr>
+            <th>🆔 ID</th>
+            <th>👤 Họ và tên</th>
+            <th>💰 Lương ($)</th>
+            <th>🏆 Xếp loại</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Sử dụng th:each để duyệt danh sách -->
+          <!-- Sử dụng th:classappend với th:if để tô đỏ dòng có lương > 1000$ -->
+          <tr th:each="emp : ${employees}"
+              th:classappend="${emp.salary > 1000} ? 'high-salary' : ''">
+            <td th:text="${emp.id}">1</td>
+            <td th:text="${emp.name}">Nguyễn Văn A</td>
+            <td th:text="${#numbers.formatDecimal(emp.salary, 0, 'COMMA', 2, 'POINT')}">1000.00</td>
+            <td>
+              <!-- Sử dụng th:if và th:unless (thay thế cho c:choose) để hiển thị xếp loại -->
+              <span class="rank-badge good" th:if="${emp.salary > 1000}">✨ Giỏi</span>
+              <span class="rank-badge fair" th:unless="${emp.salary > 1000}">👍 Khá</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </body>
 </html>

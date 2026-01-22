@@ -1,302 +1,295 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/_layout}">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title th:text="${pageTitle}">Thêm Nhân Viên</title>
-  <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+  <title>Thêm Nhân Viên</title>
 
-    body {
-        font-family:  'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background:  linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        padding: 40px 20px;
-    }
+  <!-- Page-specific styles -->
+  <th:block layout:fragment="styles">
+    <style>
+      .page-container {
+          max-width: 900px;
+          margin: 0 auto;
+          background: white;
+          padding: 40px;
+          border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
 
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        background: white;
-        padding: 40px;
-        border-radius:  20px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    }
+      .page-header {
+          color: #667eea;
+          text-align: center;
+          margin-bottom: 30px;
+          font-size: 2.5em;
+          font-weight: 700;
+      }
 
-    h1 {
-        color: #667eea;
-        text-align: center;
-        margin-bottom: 30px;
-        font-size: 2.5em;
-    }
+      .form-group {
+          margin-bottom: 25px;
+      }
 
-    .form-group {
-        margin-bottom: 25px;
-    }
+      label {
+          display: block;
+          margin-bottom: 8px;
+          color: #333;
+          font-weight: 600;
+          font-size: 1.05em;
+      }
 
-    label {
-        display: block;
-        margin-bottom: 8px;
-        color: #333;
-        font-weight: 600;
-        font-size: 1.05em;
-    }
+      label.required::after {
+          content: " *";
+          color: #e74c3c;
+      }
 
-    label. required:: after {
-        content: " *";
-        color: #e74c3c;
-    }
+      input[type="text"],
+      input[type="number"],
+      select {
+          width: 100%;
+          padding: 12px 15px;
+          border: 2px solid #e0e0e0;
+          border-radius: 10px;
+          font-size: 16px;
+          transition: all 0.3s;
+      }
 
-    input[type="text"],
-    input[type="number"],
-    select {
-        width: 100%;
-        padding: 12px 15px;
-        border: 2px solid #e0e0e0;
-        border-radius: 10px;
-        font-size:  16px;
-        transition: all 0.3s;
-    }
+      input:focus,
+      select:focus {
+          outline: none;
+          border-color: #667eea;
+          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
 
-    input: focus,
-    select: focus {
-        outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
+      .radio-group {
+          display: flex;
+          gap: 30px;
+          padding: 10px 0;
+      }
 
-    /* Radio buttons */
-    .radio-group {
-        display: flex;
-        gap: 30px;
-        padding: 10px 0;
-    }
+      .radio-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          cursor: pointer;
+      }
 
-    .radio-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-    }
+      .radio-item input[type="radio"] {
+          width: 20px;
+          height: 20px;
+          cursor: pointer;
+      }
 
-    .radio-item input[type="radio"] {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-    }
+      .radio-item label {
+          margin: 0;
+          cursor: pointer;
+          font-weight: 500;
+      }
 
-    .radio-item label {
-        margin:  0;
-        cursor: pointer;
-        font-weight: 500;
-    }
+      .checkbox-group {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+          gap: 15px;
+          padding: 10px 0;
+      }
 
-    /* Checkboxes */
-    .checkbox-group {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 15px;
-        padding: 10px 0;
-    }
+      .checkbox-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          cursor: pointer;
+      }
 
-    .checkbox-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-    }
+      .checkbox-item input[type="checkbox"] {
+          width: 20px;
+          height: 20px;
+          cursor: pointer;
+      }
 
-    .checkbox-item input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-    }
+      .checkbox-item label {
+          margin: 0;
+          cursor: pointer;
+          font-weight: 500;
+      }
 
-    .checkbox-item label {
-        margin: 0;
-        cursor: pointer;
-        font-weight: 500;
-    }
+      select {
+          cursor: pointer;
+          background: white;
+      }
 
-    /* Select */
-    select {
-        cursor: pointer;
-        background: white;
-    }
+      .button-group {
+          display: flex;
+          gap: 15px;
+          margin-top: 30px;
+      }
 
-    /* Button */
-    . button-group {
-        display: flex;
-        gap: 15px;
-        margin-top:  30px;
-    }
+      button,
+      .btn {
+          flex: 1;
+          padding: 15px;
+          border: none;
+          border-radius: 10px;
+          font-size: 18px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s;
+          text-decoration: none;
+          display: inline-block;
+          text-align: center;
+      }
 
-    button,
-    . btn {
-        flex: 1;
-        padding:  15px;
-        border: none;
-        border-radius: 10px;
-        font-size: 18px;
-        font-weight:  600;
-        cursor: pointer;
-        transition: all 0.3s;
-        text-decoration: none;
-        display: inline-block;
-        text-align: center;
-    }
+      button[type="submit"] {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+      }
 
-    button[type="submit"] {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-    }
+      button[type="submit"]:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+      }
 
-    button[type="submit"]:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-    }
+      .btn-secondary {
+          background: #6c757d;
+          color: white;
+      }
 
-    . btn-secondary {
-        background:  #6c757d;
-        color:  white;
-    }
+      .btn-secondary:hover {
+          background: #5a6268;
+          transform: translateY(-2px);
+      }
 
-    .btn-secondary:hover {
-        background: #5a6268;
-        transform: translateY(-2px);
-    }
-
-    . helper-text {
-        font-size: 0.9em;
-        color: #666;
-        margin-top: 5px;
-    }
-  </style>
+      .helper-text {
+          font-size: 0.9em;
+          color: #666;
+          margin-top: 5px;
+      }
+    </style>
+  </th:block>
 </head>
 <body>
-<div class="container">
-  <h1>➕ <span th:text="${pageTitle}">Thêm Nhân Viên Mới</span></h1>
+  <!-- Main content fragment -->
+  <div layout:fragment="content">
+    <div class="page-container">
+      <h1 class="page-header">➕ Thêm Nhân Viên Mới</h1>
 
-  <!--
-      Form với Thymeleaf
-      th:action - URL xử lý form
-      th:object - Bind object Employee vào form
-      method - POST
-  -->
-  <form th:action="@{/employees/add}" th:object="${employee}" method="post">
+      <!--
+          Form sử dụng Thymeleaf:
+          - th:action: URL xử lý form
+          - th:object: Bind object Employee vào form
+          - method: POST
+      -->
+      <form th:action="@{/employees/add}" th:object="${employee}" method="post">
 
-    <!-- Họ tên -->
-    <div class="form-group">
-      <label for="name" class="required">👤 Họ và tên: </label>
-      <input
-              type="text"
-              id="name"
-              th:field="*{name}"
-              placeholder="Nhập họ và tên đầy đủ"
-              required
-      >
-      <div class="helper-text">Ví dụ: Nguyễn Văn A</div>
-    </div>
-
-    <!-- Lương -->
-    <div class="form-group">
-      <label for="salary" class="required">💰 Lương (VNĐ):</label>
-      <input
-              type="number"
-              id="salary"
-              th:field="*{salary}"
-              placeholder="Nhập mức lương"
-              min="0"
-              step="100000"
-              required
-      >
-      <div class="helper-text">Ví dụ: 15000000 (15 triệu VNĐ)</div>
-    </div>
-
-    <!-- Giới tính - Radio buttons -->
-    <div class="form-group">
-      <label class="required">⚧ Giới tính:</label>
-      <div class="radio-group">
-        <div class="radio-item">
+        <!-- Họ tên -->
+        <div class="form-group">
+          <label for="name" class="required">👤 Họ và tên:</label>
           <input
-                  type="radio"
-                  id="male"
-                  th:field="*{gender}"
-                  value="male"
+                  type="text"
+                  id="name"
+                  th:field="*{name}"
+                  placeholder="Nhập họ và tên đầy đủ"
                   required
           >
-          <label for="male">Nam</label>
+          <div class="helper-text">Ví dụ: Nguyễn Văn A</div>
         </div>
-        <div class="radio-item">
+
+        <!-- Lương -->
+        <div class="form-group">
+          <label for="salary" class="required">💰 Lương (VNĐ):</label>
           <input
-                  type="radio"
-                  id="female"
-                  th:field="*{gender}"
-                  value="female"
+                  type="number"
+                  id="salary"
+                  th:field="*{salary}"
+                  placeholder="Nhập mức lương"
+                  min="0"
+                  step="100000"
                   required
           >
-          <label for="female">Nữ</label>
+          <div class="helper-text">Ví dụ: 15000000 (15 triệu VNĐ)</div>
         </div>
-      </div>
-    </div>
 
-    <!-- Phòng ban - Select box -->
-    <div class="form-group">
-      <label for="department" class="required">🏢 Phòng ban:</label>
-      <select
-              id="department"
-              th:field="*{department}"
-              required
-      >
-        <option value="">-- Chọn phòng ban --</option>
-        <!--
-            Loop qua Map departments
-            entry.key = value (IT, HR, SALES)
-            entry.value = label hiển thị
-        -->
-        <option
-                th:each="entry : ${departments}"
-                th:value="${entry.key}"
-                th:text="${entry.value}">
-        </option>
-      </select>
-    </div>
+        <!-- Giới tính - Radio buttons -->
+        <div class="form-group">
+          <label class="required">⚧ Giới tính:</label>
+          <div class="radio-group">
+            <div class="radio-item">
+              <input
+                      type="radio"
+                      id="male"
+                      th:field="*{gender}"
+                      value="male"
+                      required
+              >
+              <label for="male">Nam</label>
+            </div>
+            <div class="radio-item">
+              <input
+                      type="radio"
+                      id="female"
+                      th:field="*{gender}"
+                      value="female"
+                      required
+              >
+              <label for="female">Nữ</label>
+            </div>
+          </div>
+        </div>
 
-    <!-- Kỹ năng - Checkboxes -->
-    <div class="form-group">
-      <label class="required">💻 Kỹ năng:</label>
-      <div class="checkbox-group">
-        <!--
-            Loop qua List skillsList
-            th:field="*{skills}" - Spring tự động bind vào List
-        -->
-        <div class="checkbox-item" th:each="skill : ${skills}">
-          <input
-                  type="checkbox"
-                  th:id="${'skill_' + skill}"
-                  th:field="*{skills}"
-                  th:value="${skill}"
+        <!-- Phòng ban - Select box với th:each -->
+        <div class="form-group">
+          <label for="department" class="required">🏢 Phòng ban:</label>
+          <select
+                  id="department"
+                  th:field="*{department}"
+                  required
           >
-          <label th:for="${'skill_' + skill}" th:text="${skill}">Skill</label>
+            <option value="">-- Chọn phòng ban --</option>
+            <!--
+                Sử dụng th:each để loop qua Map departments
+                entry.key = value (IT, HR, SALES)
+                entry.value = label hiển thị
+            -->
+            <option
+                    th:each="entry : ${departments}"
+                    th:value="${entry.key}"
+                    th:text="${entry.value}">
+            </option>
+          </select>
         </div>
-      </div>
-      <div class="helper-text">Chọn ít nhất 1 kỹ năng</div>
-    </div>
 
-    <!-- Buttons -->
-    <div class="button-group">
-      <button type="submit">
-        ✅ Thêm Nhân Viên
-      </button>
-      <a th:href="@{/employees}" class="btn btn-secondary">
-        ❌ Hủy
-      </a>
+        <!-- Kỹ năng - Checkboxes với th:each -->
+        <div class="form-group">
+          <label class="required">💻 Kỹ năng:</label>
+          <div class="checkbox-group">
+            <!--
+                Sử dụng th:each để loop qua List skills
+                th:field="*{skills}" - Spring tự động bind vào List
+            -->
+            <div class="checkbox-item" th:each="skill : ${skills}">
+              <input
+                      type="checkbox"
+                      th:id="${'skill_' + skill}"
+                      th:field="*{skills}"
+                      th:value="${skill}"
+              >
+              <label th:for="${'skill_' + skill}" th:text="${skill}">Skill</label>
+            </div>
+          </div>
+          <div class="helper-text">Chọn ít nhất 1 kỹ năng</div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+          <button type="submit">
+            ✅ Thêm Nhân Viên
+          </button>
+          <a th:href="@{/employees}" class="btn btn-secondary">
+            ❌ Hủy
+          </a>
+        </div>
+      </form>
     </div>
-  </form>
-</div>
+  </div>
 </body>
 </html>
+

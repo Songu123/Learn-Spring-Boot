@@ -1,16 +1,103 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/_layout}">
 <head>
-  <meta charset="UTF-8" />
-  <title th:text="${pageTitle} ?: 'Employee'">Employee</title>
+  <title th:text="${pageTitle} ?: 'Thông tin Nhân viên'">Thông tin Nhân viên</title>
+
+  <!-- Page-specific styles -->
+  <th:block layout:fragment="styles">
+    <style>
+      .page-container {
+          background: white;
+          padding: 40px;
+          border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+          max-width: 700px;
+          margin: 0 auto;
+      }
+
+      .page-header {
+          color: #667eea;
+          text-align: center;
+          margin-bottom: 30px;
+          font-size: 2.5em;
+          font-weight: 700;
+      }
+
+      .employee-card {
+          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+          padding: 30px;
+          border-radius: 15px;
+          margin: 20px 0;
+      }
+
+      .info-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 15px;
+          background: white;
+          border-radius: 10px;
+          border-left: 4px solid #667eea;
+          margin-bottom: 15px;
+      }
+
+      .info-label {
+          font-weight: 600;
+          color: #555;
+      }
+
+      .info-value {
+          font-weight: 700;
+          color: #667eea;
+      }
+
+      .back-button {
+          display: inline-block;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          padding: 12px 30px;
+          text-decoration: none;
+          border-radius: 10px;
+          transition: all 0.3s;
+          font-weight: 600;
+          margin-top: 20px;
+      }
+
+      .back-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+      }
+    </style>
+  </th:block>
 </head>
 <body>
-<h1 th:text="${pageTitle} ?: 'Employee'">Employee</h1>
-<div>
-  <p>ID: <span th:text="${employee.id}">1</span></p>
-  <p>Name: <span th:text="${employee.name}">Name</span></p>
-  <p>Salary: <span th:text="${employee.salary}">0</span></p>
-</div>
-<a th:href="@{/employees}">Back</a>
+  <!-- Main content fragment -->
+  <div layout:fragment="content">
+    <div class="page-container">
+      <h1 class="page-header" th:text="${pageTitle} ?: '👤 Thông tin Nhân viên'">👤 Thông tin Nhân viên</h1>
+
+      <div class="employee-card">
+        <div class="info-row">
+          <span class="info-label">🆔 ID:</span>
+          <span class="info-value" th:text="${employee.id}">1</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">👤 Họ và tên:</span>
+          <span class="info-value" th:text="${employee.name}">Nguyễn Văn A</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">💰 Lương:</span>
+          <span class="info-value" th:text="${#numbers.formatDecimal(employee.salary, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">12,000,000 VNĐ</span>
+        </div>
+      </div>
+
+      <div style="text-align: center;">
+        <a th:href="@{/employees}" class="back-button">🏠 Về trang chủ</a>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
+

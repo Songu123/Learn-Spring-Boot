@@ -27,6 +27,7 @@ public class EmployeeController {
         model.addAttribute("departments", getDepartmentMap());
         model.addAttribute("skills", getSkillsList());
         model.addAttribute("pageTitle", "Thêm Nhân Viên Mới");
+        model.addAttribute("currentPage", "add");
         return "add-employee";
     }
 
@@ -42,6 +43,7 @@ public class EmployeeController {
         model.addAttribute("departmentName", departmentName);
 
         model.addAttribute("pageTitle", "Kết Quả Thêm Nhân Viên");
+        model.addAttribute("currentPage", "add");
         return "add-employee-result";
     }
 
@@ -73,6 +75,7 @@ public class EmployeeController {
         model.addAttribute("employee", employee);
 
         model.addAttribute("pageTitle", "Thông Tin Nhân Viên");
+        model.addAttribute("currentPage", "single");
         return "employee-single";
     }
 
@@ -95,6 +98,7 @@ public class EmployeeController {
         double averageSalary = totalSalary / employees.size();
         model.addAttribute("averageSalary", averageSalary);
 
+        model.addAttribute("currentPage", "list");
         return "employee-list";
     }
 
@@ -104,9 +108,10 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public String employeeHome() {
+    public String employeeHome(Model model) {
         System.out.println("\n [GET] /employees");
         System.out.println("Request to endpoint: /employees");
+        model.addAttribute("currentPage", "home");
         return "employee-home";
     }
 }

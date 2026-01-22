@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Quản lý Nhân viên</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* === HEADER / MENU === */
+        header {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header-title {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+            border: 2px solid transparent;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        nav a.active {
+            background: #667eea;
+            border-color: #667eea;
+        }
+
+        /* === MAIN CONTENT === */
+        main {
+            flex: 1;
+            padding: 40px 20px;
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* === FOOTER === */
+        footer {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: white;
+            padding: 30px 20px;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #a0aec0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+
+        .copyright {
+            color: #a0aec0;
+            font-size: 0.9em;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .copyright strong {
+            color: #667eea;
+        }
+    </style>
+
+    <!-- Additional page-specific styles -->
+    <th:block layout:fragment="styles"></th:block>
+</head>
+<body>
+<!-- ========== HEADER / MENU ========== -->
+<header>
+    <div class="header-container">
+        <div class="header-title">🏢 Hệ thống Quản lý Nhân viên</div>
+        <nav>
+            <a th:href="@{/employees}"
+               th:classappend="${currentPage == 'home'} ? 'active' : ''">
+                🏠 Trang chủ
+            </a>
+
+            <a th:href="@{/employees/add}"
+               th:classappend="${currentPage == 'add'} ? 'active' : ''">
+                ➕ Thêm nhân viên
+            </a>
+
+            <a th:href="@{/employees/list}"
+               th:classappend="${currentPage == 'list'} ? 'active' : ''">
+                📋 Danh sách
+            </a>
+
+            <a th:href="@{/employees/single}"
+               th:classappend="${currentPage == 'single'} ? 'active' : ''">
+                👤 Xem đơn
+            </a>
+
+            <a th:href="@{/calc}">
+                🔢 Calculator
+            </a>
+        </nav>
+    </div>
+</header>
+
+<!-- ========== MAIN CONTENT ========== -->
+<main>
+    <div class="content-wrapper">
+        <!-- Page content will be inserted here -->
+        <div layout:fragment="content">
+            <p>Default content - should be replaced by page content</p>
+        </div>
+    </div>
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+    <div class="footer-container">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">📧 Liên hệ</a>
+                <a href="#">📖 Tài liệu</a>
+                <a href="#">ℹ️ Giới thiệu</a>
+                <a href="#">❓ Trợ giúp</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 <strong>Hệ thống Quản lý Nhân viên</strong></p>
+                <p>Phát triển bởi Spring Boot & Thymeleaf</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Additional page-specific scripts -->
+<th:block layout:fragment="scripts"></th:block>
+</body>
+</html>
+

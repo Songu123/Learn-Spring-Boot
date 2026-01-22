@@ -1,189 +1,183 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/_layout}">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:text="${pageTitle}">Kết Quả</title>
-  <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
 
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        padding: 40px 20px;
-    }
+  <!-- Page-specific styles -->
+  <th:block layout:fragment="styles">
+    <style>
+      .page-container {
+          max-width: 900px;
+          margin: 0 auto;
+          background: white;
+          padding: 40px;
+          border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
 
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        background: white;
-        padding: 40px;
-        border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    }
+      .success-icon {
+          text-align: center;
+          font-size: 5em;
+          margin-bottom: 20px;
+          animation: bounce 1s;
+      }
 
-    h1 {
-        color: #667eea;
-        text-align: center;
-        margin-bottom: 30px;
-        font-size: 2.5em;
-    }
+      @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+          40% { transform: translateY(-30px); }
+          60% { transform: translateY(-15px); }
+      }
 
-    .success-icon {
-        text-align: center;
-        font-size: 5em;
-        margin-bottom: 20px;
-        animation: bounce 1s;
-    }
+      .page-header {
+          color: #667eea;
+          text-align: center;
+          margin-bottom: 30px;
+          font-size: 2.5em;
+          font-weight: 700;
+      }
 
-    @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-        40% { transform: translateY(-30px); }
-        60% { transform: translateY(-15px); }
-    }
+      .employee-card {
+          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+          padding: 30px;
+          border-radius: 15px;
+          margin: 20px 0;
+      }
 
-    .employee-card {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        padding: 30px;
-        border-radius: 15px;
-        margin: 20px 0;
-    }
+      .info-grid {
+          display: grid;
+          gap: 15px;
+      }
 
-    .info-grid {
-        display: grid;
-        gap: 15px;
-    }
+      .info-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 15px;
+          background: white;
+          border-radius: 10px;
+          border-left: 4px solid #667eea;
+      }
 
-    .info-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 15px;
-        background: white;
-        border-radius: 10px;
-        border-left: 4px solid #667eea;
-    }
+      .info-label {
+          font-weight: 600;
+          color: #555;
+      }
 
-    .info-label {
-        font-weight: 600;
-        color: #555;
-    }
+      .info-value {
+          font-weight: 700;
+          color: #667eea;
+          text-align: right;
+      }
 
-    .info-value {
-        font-weight: 700;
-        color: #667eea;
-        text-align: right;
-    }
+      .skills-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          justify-content: flex-end;
+      }
 
-    .skills-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: flex-end;
-    }
+      .skill-badge {
+          background: #667eea;
+          color: white;
+          padding: 5px 15px;
+          border-radius: 20px;
+          font-size: 0.9em;
+      }
 
-    .skill-badge {
-        background: #667eea;
-        color: white;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 0.9em;
-    }
+      .buttons {
+          display: flex;
+          gap: 15px;
+          margin-top: 30px;
+      }
 
-    .buttons {
-        display: flex;
-        gap: 15px;
-        margin-top: 30px;
-    }
+      .btn {
+          flex: 1;
+          padding: 15px;
+          border: none;
+          border-radius: 10px;
+          font-size: 18px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s;
+          text-decoration: none;
+          display: inline-block;
+          text-align: center;
+          color: white;
+      }
 
-    .btn {
-        flex: 1;
-        padding: 15px;
-        border: none;
-        border-radius: 10px;
-        font-size: 18px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-        text-decoration: none;
-        display: inline-block;
-        text-align: center;
-        color: white;
-    }
+      .btn-primary {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
 
-    .btn-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
+      .btn-success {
+          background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      }
 
-    .btn-success {
-        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-    }
+      .btn-secondary {
+          background: #6c757d;
+      }
 
-    .btn-secondary {
-        background: #6c757d;
-    }
-
-    .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-  </style>
+      .btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </th:block>
 </head>
 <body>
-<div class="container">
-  <div class="success-icon">✅</div>
-  <h1>Thêm Nhân Viên Thành Công!</h1>
+  <!-- Main content fragment -->
+  <div layout:fragment="content">
+    <div class="page-container">
+      <div class="success-icon">✅</div>
+      <h1 class="page-header">Thêm Nhân Viên Thành Công!</h1>
 
-  <div class="employee-card">
-    <div class="info-grid">
-      <div class="info-row">
-        <span class="info-label">🆔 Mã nhân viên:</span>
-        <span class="info-value" th:text="${employee.id}">1</span>
-      </div>
+      <div class="employee-card">
+        <div class="info-grid">
+          <div class="info-row">
+            <span class="info-label">🆔 Mã nhân viên:</span>
+            <span class="info-value" th:text="${employee.id}">1</span>
+          </div>
 
-      <div class="info-row">
-        <span class="info-label">👤 Họ và tên:</span>
-        <span class="info-value" th:text="${employee.name}">Nguyễn Văn A</span>
-      </div>
+          <div class="info-row">
+            <span class="info-label">👤 Họ và tên:</span>
+            <span class="info-value" th:text="${employee.name}">Nguyễn Văn A</span>
+          </div>
 
-      <div class="info-row">
-        <span class="info-label">💰 Lương:</span>
-        <span class="info-value">
-          <span th:text="${#numbers.formatDecimal(employee.salary, 0, 'COMMA', 0, 'POINT')}">15,000,000</span> VNĐ
-        </span>
-      </div>
+          <div class="info-row">
+            <span class="info-label">💰 Lương:</span>
+            <span class="info-value">
+              <span th:text="${#numbers.formatDecimal(employee.salary, 0, 'COMMA', 0, 'POINT')}">15,000,000</span> VNĐ
+            </span>
+          </div>
 
-      <div class="info-row" th:if="${employee.gender != null}">
-        <span class="info-label">⚧ Giới tính:</span>
-        <span class="info-value" th:text="${employee.gender}">Nam</span>
-      </div>
+          <div class="info-row" th:if="${employee.gender != null}">
+            <span class="info-label">⚧ Giới tính:</span>
+            <span class="info-value" th:text="${employee.gender}">Nam</span>
+          </div>
 
-      <div class="info-row" th:if="${departmentName != null}">
-        <span class="info-label">🏢 Phòng ban:</span>
-        <span class="info-value" th:text="${departmentName}">Công Nghệ Thông Tin</span>
-      </div>
+          <div class="info-row" th:if="${departmentName != null}">
+            <span class="info-label">🏢 Phòng ban:</span>
+            <span class="info-value" th:text="${departmentName}">Công Nghệ Thông Tin</span>
+          </div>
 
-      <div class="info-row" th:if="${employee.skills != null and not #lists.isEmpty(employee.skills)}">
-        <span class="info-label">💻 Kỹ năng:</span>
-        <div class="info-value">
-          <div class="skills-list">
-            <span class="skill-badge" th:each="skill : ${employee.skills}" th:text="${skill}">Java</span>
+          <div class="info-row" th:if="${employee.skills != null and not #lists.isEmpty(employee.skills)}">
+            <span class="info-label">💻 Kỹ năng:</span>
+            <div class="info-value">
+              <div class="skills-list">
+                <span class="skill-badge" th:each="skill : ${employee.skills}" th:text="${skill}">Java</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      <div class="buttons">
+        <a th:href="@{/employees/add}" class="btn btn-success">➕ Thêm nhân viên khác</a>
+        <a th:href="@{/employees/list}" class="btn btn-primary">📋 Xem danh sách</a>
+        <a th:href="@{/employees}" class="btn btn-secondary">🏠 Trang chủ</a>
+      </div>
     </div>
   </div>
-
-  <div class="buttons">
-    <a th:href="@{/employees/add}" class="btn btn-success">➕ Thêm nhân viên khác</a>
-    <a th:href="@{/employees/list}" class="btn btn-primary">📋 Xem danh sách</a>
-    <a th:href="@{/employees}" class="btn btn-secondary">🏠 Trang chủ</a>
-  </div>
-</div>
 </body>
-</html>
-
