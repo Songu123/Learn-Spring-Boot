@@ -20,9 +20,51 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'  // ← THÊM
+
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// Lombok (optional)
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// Test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+// ⭐ Cấu hình bootRun để support hot reload
+tasks.named('bootRun') {
+	// Cho phép DevTools hoạt động
+	systemProperty 'spring.devtools.restart. enabled', 'true'
+	systemProperty 'spring.devtools.livereload.enabled', 'true'
+
+	// Graceful shutdown
+	ignoreExitValue = true
+
+	// Source sets cho hot reload
+	sourceResources sourceSets.main
+}
+
+// ⭐ Tự động copy resources khi thay đổi
+tasks.register('copyResources', Copy) {
+	from 'src/main/resources'
+	into 'build/resources/main'
+}
+
+// ⭐ ProcessResources - Tự động xử lý khi resources thay đổi
+tasks.named('processResources') {
+	dependsOn 'copyResources'
+}
+
+// ⭐ Compile tự động khi file thay đổi
+tasks. named('compileJava') {
+	options.incremental = true
 }
 
 tasks.named('test') {

@@ -7,7 +7,7 @@ public class EnglishGreetingService implements GreetingService {
     @Override
     public String getGreeting() {
         System.out.println("Hello World - EnglishGreetingService");
-        return "Hello Spring Mvc";
+        return "Hello Spring anh sơn";
     }
 
     @Override
