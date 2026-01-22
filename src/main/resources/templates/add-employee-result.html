@@ -152,6 +152,11 @@
             </span>
           </div>
 
+          <div class="info-row" th:if="${employee.email != null and !employee.email.isEmpty()}">
+            <span class="info-label">📧 Email:</span>
+            <span class="info-value" th:text="${employee.email}">nguyenvana@example.com</span>
+          </div>
+
           <div class="info-row" th:if="${employee.gender != null}">
             <span class="info-label">⚧ Giới tính:</span>
             <span class="info-value" th:text="${employee.gender}">Nam</span>

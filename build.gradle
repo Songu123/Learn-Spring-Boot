@@ -22,6 +22,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'  // ← THÊM
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0' // ← Layout support
+	implementation 'org.springframework.boot:spring-boot-starter-validation' // ← Validation support
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'

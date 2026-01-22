@@ -1,8 +1,10 @@
 package com.son.learn.controller;
 
 import com.son.learn.model.Employee;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,11 +34,27 @@ public class EmployeeController {
     }
 
     @PostMapping("/add")
-    public String addEmployee(Employee employee, Model model) {
+    public String addEmployee(@Valid Employee employee, BindingResult bindingResult, Model model) {
         System.out.println("\n [POST] /employees/add");
         System.out.println("Request to endpoint: /employees/add");
         System.out.println("Received Employee: " + employee);
 
+        // Kiểm tra lỗi validation
+        if (bindingResult.hasErrors()) {
+            System.out.println("Validation errors found: " + bindingResult.getErrorCount());
+            bindingResult.getAllErrors().forEach(error ->
+                System.out.println("  └─> " + error.getDefaultMessage())
+            );
+
+            // Trả về form với thông báo lỗi
+            model.addAttribute("departments", getDepartmentMap());
+            model.addAttribute("skills", getSkillsList());
+            model.addAttribute("pageTitle", "Thêm Nhân Viên Mới");
+            model.addAttribute("currentPage", "add");
+            return "add-employee";
+        }
+
+        // Nếu không có lỗi, tiếp tục xử lý
         model.addAttribute("employee", employee);
 
         String departmentName = getDepartmentName(employee.getDepartment());

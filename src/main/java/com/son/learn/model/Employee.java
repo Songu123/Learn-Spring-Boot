@@ -1,11 +1,20 @@
 package com.son.learn.model;
 
+import jakarta.validation.constraints.*;
 import java.util.List;
 
 public class Employee {
     private int id;
+
+    @NotBlank(message = "Tên không được để trống")
+    @Size(min = 5, message = "Tên phải có ít nhất 5 ký tự")
     private String name;
+
+    @Min(value = 100, message = "Lương tối thiểu là 100")
     private double salary;
+
+    @Email(message = "Email phải đúng định dạng")
+    private String email;
 
     private String gender;
     private String department;
@@ -53,6 +62,14 @@ public class Employee {
         this.skills = skills;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public int getId() {
         return id;
     }
@@ -83,6 +100,7 @@ public class Employee {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", salary=" + salary +
+                ", email='" + email + '\'' +
                 ", gender='" + gender + '\'' +
                 ", department='" + department + '\'' +
                 ", skills=" + skills +
