@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
   <title>Danh sách nhân viên</title>
@@ -27,11 +27,11 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="emp : ${employees}" th:classappend="${emp.salary > 1000} ? 'high' : ''">
+    <tr th:each="emp : ${employees}" th:classappend="${emp.salary > 1000 ? 'high' : ''}">
       <td th:text="${emp.id}">1</td>
       <td th:text="${emp.name}">Name</td>
       <td th:text="${emp.salary}">0</td>
-      <td th:text="${emp.salary > 1000} ? 'Giỏi' : 'Khá'">Khá</td>
+      <td th:text="${emp.salary > 1000 ? 'Giỏi' : 'Khá'}">Khá</td>
     </tr>
     </tbody>
   </table>

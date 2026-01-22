@@ -1,15 +1,15 @@
-<!-- File: src/main/resources/templates/employee-home.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
-  <title th:text="${pageTitle} ?: 'Employees'">Employees</title>
+  <title>Trang chủ Nhân viên</title>
 </head>
 <body>
-<h1 th:text="${pageTitle} ?: 'Employees'">Employees</h1>
-<ul>
-  <li><a th:href="@{/employees/single}">Single Employee</a></li>
-  <li><a th:href="@{/employees/list}">Employee List</a></li>
-</ul>
+  <h1>Quản lý Nhân viên</h1>
+  <ul>
+    <li><a th:href="@{/employees/add}">Thêm nhân viên</a></li>
+    <li><a th:href="@{/employees/single}">Xem nhân viên đơn</a></li>
+    <li><a th:href="@{/employees/list}">Danh sách nhân viên</a></li>
+  </ul>
 </body>
 </html>

@@ -1,9 +1,15 @@
 package com.son.learn.model;
 
+import java.util.List;
+
 public class Employee {
     private int id;
     private String name;
     private double salary;
+
+    private String gender;
+    private String department;
+    private List<String> skills;
 
     public Employee(int id, String name, double salary) {
         this.id = id;
@@ -12,6 +18,39 @@ public class Employee {
     }
     public Employee() {
 
+    }
+
+    public Employee(int id, String name, double salary, String gender, String department, List<String> skills) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+        this.gender = gender;
+        this.department = department;
+        this.skills = skills;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public List<String> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<String> skills) {
+        this.skills = skills;
     }
 
     public int getId() {
@@ -44,6 +83,9 @@ public class Employee {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", salary=" + salary +
+                ", gender='" + gender + '\'' +
+                ", department='" + department + '\'' +
+                ", skills=" + skills +
                 '}';
     }
 }

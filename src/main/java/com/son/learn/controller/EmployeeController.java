@@ -4,13 +4,64 @@ import com.son.learn.model.Employee;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/employees")
 public class EmployeeController {
+
+    @GetMapping("/add")
+    public String showAddEmployeeForm(Model model) {
+        System.out.println("\n [GET] /employees/add");
+        System.out.println("Request to endpoint: /employees/add");
+
+        Employee employee = new Employee();
+        model.addAttribute("employee", employee);
+
+        model.addAttribute("departments", getDepartmentMap());
+        model.addAttribute("skills", getSkillsList());
+        model.addAttribute("pageTitle", "Thêm Nhân Viên Mới");
+        return "add-employee";
+    }
+
+    @PostMapping("/add")
+    public String addEmployee(Employee employee, Model model) {
+        System.out.println("\n [POST] /employees/add");
+        System.out.println("Request to endpoint: /employees/add");
+        System.out.println("Received Employee: " + employee);
+
+        model.addAttribute("employee", employee);
+
+        String departmentName = getDepartmentName(employee.getDepartment());
+        model.addAttribute("departmentName", departmentName);
+
+        model.addAttribute("pageTitle", "Kết Quả Thêm Nhân Viên");
+        return "add-employee-result";
+    }
+
+    private Map<String, String> getDepartmentMap() {
+        Map<String, String> departments = new LinkedHashMap<>();
+        departments.put("IT", "Công Nghệ Thông Tin");
+        departments.put("HR", "Nhân Sự");
+        departments.put("SALES", "Kinh Doanh");
+        departments.put("ACCOUNTING", "Kế Toán");
+        departments.put("MARKETING", "Marketing");
+        return departments;
+    }
+
+    private List<String> getSkillsList() {
+        return Arrays.asList("Java", "C#", "Python", "JavaScript", "PHP", "Ruby");
+    }
+
+    private String getDepartmentName(String code) {
+        return getDepartmentMap().getOrDefault(code, "Unknown Department");
+    }
 
     @GetMapping("/single")
     public String getSingleEmployee(Model model) {
