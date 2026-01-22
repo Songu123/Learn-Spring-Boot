@@ -1,0 +1,15 @@
+<!-- File: src/main/resources/templates/employee-home.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title th:text="${pageTitle} ?: 'Employees'">Employees</title>
+</head>
+<body>
+<h1 th:text="${pageTitle} ?: 'Employees'">Employees</h1>
+<ul>
+  <li><a th:href="@{/employees/single}">Single Employee</a></li>
+  <li><a th:href="@{/employees/list}">Employee List</a></li>
+</ul>
+</body>
+</html>

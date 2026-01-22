@@ -1,0 +1,22 @@
+<!-- File: src/main/resources/templates/employee-list.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title th:text="${pageTitle} ?: 'Employee List'">Employee List</title>
+</head>
+<body>
+<h1 th:text="${pageTitle} ?: 'Employee List'">Employee List</h1>
+<p>Total: <span th:text="${totalEmployees}">0</span></p>
+<p>Total Salary: <span th:text="${totalSalary}">0</span></p>
+<p>Average Salary: <span th:text="${averageSalary}">0</span></p>
+<ul>
+  <li th:each="emp : ${employees}">
+    <span th:text="${emp.id}">1</span> -
+    <span th:text="${emp.name}">Name</span> -
+    <span th:text="${emp.salary}">0</span>
+  </li>
+</ul>
+<a th:href="@{/employees}">Back</a>
+</body>
+</html>
