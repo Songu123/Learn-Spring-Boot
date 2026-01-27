@@ -1,13 +1,19 @@
 package com.son.learn.model;
-
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.util.List;
 
+@Entity
+@Table(name = "employees")
 public class Employee {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotBlank(message = "Tên không được để trống")
     @Size(min = 5, message = "Tên phải có ít nhất 5 ký tự")
+    @Column(nullable = false)
     private String name;
 
     @Min(value = 100, message = "Lương tối thiểu là 100")
@@ -18,6 +24,13 @@ public class Employee {
 
     private String gender;
     private String department;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "employee_skills",
+            joinColumns = @JoinColumn(name = "employee_id")
+    )
+    @Column(name = "skill")
     private List<String> skills;
 
     public Employee(int id, String name, double salary) {
